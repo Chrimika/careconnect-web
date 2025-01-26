@@ -6,8 +6,9 @@ import 'moment/locale/fr';
 import { useState } from 'react';
 import { Swiper } from 'swiper/react';
 import 'swiper/css'; 
-import { jsPDF } from "jspdf";
 import Consultation from '../controller/Consultation'; // La classe Consultation n'a pas changé
+import Loader from '../components/Loader';
+
 
 moment.locale('fr');
 
@@ -45,44 +46,14 @@ export default function ConsultationsScreen() {
         'Doe',
         'John',
         'Générale',
-        3000
+        3000,
+        '',
       );
       alert(consultation.getDetails());
-      generateInvoice(consultation);
+      consultation.generateAndSaveInvoice(consultation);
     } else {
       alert('Veuillez sélectionner une heure.');
     }
-  };
-
-  // Fonction pour générer la facture (PDF)
-  const generateInvoice = (consultation) => {
-    const doc = new jsPDF();
-    
-    // Titre
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(20);
-    doc.text("Facture de Consultation", 20, 20);
-    
-    // Détails de la consultation
-    doc.setFontSize(12);
-    doc.text(`Date de consultation: ${moment(consultation.date).format('dddd D MMMM YYYY')}`, 20, 40);
-    doc.text(`Heure: ${consultation.heure}`, 20, 50);
-    doc.text(`Consultation: ${consultation.typeConsultation}`, 20, 60);
-    
-    // Informations sur le patient
-    doc.text(`Nom: ${consultation.prenomPatient} ${consultation.nomPatient}`, 20, 70);
-    
-    // Prix (exemple statique, vous pouvez ajuster selon le type de consultation ou d'autres facteurs)
-    doc.text(`Prix: ${consultation.prix}FCFA`, 20, 80);
-    
-    // Total
-    doc.text(`Montant total: ${consultation.prix}FRCFA`, 20, 90);
-
-    // Signature
-    doc.text("Merci pour votre confiance!", 20, 110);
-    
-    // Sauvegarde du PDF
-    doc.save(`Facture_${consultation.prenomPatient}_${consultation.nomPatient}_${moment().format('YYYYMMDD_HHmmss')}.pdf`);
   };
 
   return (
@@ -189,6 +160,7 @@ export default function ConsultationsScreen() {
           Prendre rendez-vous
         </button>
       </div>
+      <Loader />
     </div>
   );
 }
