@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "date-fns": "^4.1.0",
     "firebase": "^11.2.0",
     "jsbarcode": "^3.11.6",
     "jspdf": "^2.5.2",

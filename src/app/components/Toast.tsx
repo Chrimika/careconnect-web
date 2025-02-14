@@ -33,7 +33,6 @@ const StyledWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  display: none;
 
   .toast {
     background-color: #333;

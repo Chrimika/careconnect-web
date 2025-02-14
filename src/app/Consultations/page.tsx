@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useMemo } from 'react';
+import { useRouter } from "next/navigation";
 import moment from 'moment';
 import 'moment/locale/fr';
 import { useState } from 'react';
@@ -8,11 +9,15 @@ import { Swiper } from 'swiper/react';
 import 'swiper/css'; 
 import Consultation from '../controller/Consultation'; // La classe Consultation n'a pas changé
 import Loader from '../components/Loader';
+import {FiChevronLeft,FiList} from 'react-icons/fi'
+import Footer from '../components/Footer';
 
 
 moment.locale('fr');
 
+
 export default function ConsultationsScreen() {
+  const router = useRouter();
   const [value, setValue] = useState(new Date());
   const [week, setWeek] = useState(0);
   const [selectedHour, setSelectedHour] = useState(null);
@@ -49,7 +54,6 @@ export default function ConsultationsScreen() {
         3000,
         '',
       );
-      alert(consultation.getDetails());
       consultation.generateAndSaveInvoice(consultation);
     } else {
       alert('Veuillez sélectionner une heure.');
@@ -57,8 +61,24 @@ export default function ConsultationsScreen() {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', padding: '24px', border: '1px solid black', flex:1, height: '100vh' }}>
-      <div style={{ padding: '0 16px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', padding: '24px', flex:1, height: '100vh' }}>
+      <div style={{ padding: '0 16px', width:'100%' }}>
+        <div style={{width:'100%',display:'flex',justifyContent:'space-between'}}>
+          <button
+          onClick={() => router.push("./../")}
+          >
+            <FiChevronLeft size={40} style={{marginLeft:-16}}/>
+          </button>
+          <button
+          onClick={() => router.push("./../Historique")}
+          style={{display:'flex',justifyContent:'center',alignItems:'center',flexDirection:'column'}}
+          >
+            <FiList size={35}/>
+            <p style={{fontSize:12}}>Historique</p>
+          </button>
+        </div>
+        
+        
         <h1 style={{ fontSize: '32px', fontWeight: '700', color: '#1d1d1d', marginBottom: '12px' }}>
           Vos disponibilités
         </h1>
@@ -107,12 +127,12 @@ export default function ConsultationsScreen() {
           ))}
         </Swiper>
       </div>
-      <div style={{ flex: 1, padding: '16px', paddingTop: '24px' }}>
+      <div style={{ flex: 0.8, padding: '16px', paddingTop: '24px' }}>
         <div style={{ marginBottom: '16px' }}>
-          <h3 style={{ fontSize: '18px', fontWeight: '600', color: '#333', marginBottom: '12px' }}>
+          <h3 style={{ fontSize: '18px', fontWeight: '600', color: '#333', marginBottom: '12px', }}>
             Choisissez une heure
           </h3>
-          <div style={{ display: 'flex', overflowX: 'scroll', marginBottom: '16px' }}>
+          <div style={{ display: 'flex', overflowX: 'scroll', marginBottom: '16px', WebkitOverflowScrolling: 'touch',scrollbarWidth: 'none', }}>
             {hours.map((hour, index) => {
               const isSelected = hour === selectedHour;
               return (
@@ -140,7 +160,7 @@ export default function ConsultationsScreen() {
           </p>
         </div>
       </div>
-      <div style={{ marginTop: '24px', padding: '16px'}}>
+      <div style={{ padding: '16px'}}>
         <button
           onClick={handleConfirmAppointment}
           style={{
@@ -161,6 +181,7 @@ export default function ConsultationsScreen() {
         </button>
       </div>
       <Loader />
+      <Footer active={"consult"}/>
     </div>
   );
 }

@@ -4,9 +4,10 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Specialites } from "./datas/specialities";
-import { FiBell } from "react-icons/fi";
+import { FiBell, FiFile, FiUser } from "react-icons/fi";
 import logo from "./assets/images/logo.png";
 import doctorHero from "./assets/images/doctorHero.png";
+import Footer from "./components/Footer";
 
 const HomeScreen = () => {
   const router = useRouter();
@@ -48,7 +49,12 @@ const HomeScreen = () => {
       <header className="bg-[#0bcb95] py-4">
         <div className="flex justify-between items-center px-4">
           <Image src={logo} alt="Logo" className="w-10 h-10" />
-          <FiBell className="text-white text-2xl" />
+          
+          <button
+        onClick={() => router.push("./../")}
+        >
+          <FiUser className="text-white text-2xl" />
+        </button>
         </div>
         <div className="px-4 mt-4">
           <h1 className="text-white text-2xl font-medium">Care Connect</h1>
@@ -63,9 +69,17 @@ const HomeScreen = () => {
           <div className="bg-[#0bcb95] w-1 h-5"></div>
           <h2 className="ml-2 text-lg font-semibold text-gray-800">Spécialités</h2>
         </div>
-        <div style={{}} className="mt-4 flex overflow-x-auto scrollbar-hide">
+        <div
+          style={{
+            WebkitOverflowScrolling: 'touch', // Pour un défilement fluide sur iOS
+            overflowX: 'scroll', // Active le scroll horizontal
+            scrollbarWidth: 'none', // Cacher la scrollbar dans Firefox
+          }}
+          className="mt-4 flex overflow-x-auto scrollbar-hide"
+        >
           {Specialites.map(renderItem)}
         </div>
+
       </section>
 
       <section className="mt-6 px-4">
@@ -80,15 +94,16 @@ const HomeScreen = () => {
             className="w-full max-w-xs object-contain"
           />
           <div style={{}} className="w-full mt-4 flex justify-center">
-            <button
+            {/* <button
               onClick={() => router.push("./Consultations/")}
               className="bg-[#0bcb95] text-white font-bold text-lg py-2 px-6 rounded-md shadow-md w-full"
             >
               Consulter
-            </button>
+            </button> */}
           </div>
         </div>
       </section>
+      <Footer active={"home"} />
     </div>
   );
 };
