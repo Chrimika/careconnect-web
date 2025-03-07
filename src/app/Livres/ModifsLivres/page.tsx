@@ -1,15 +1,14 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Footer from "../components/Footer";
-import Header from "../components/Header";
-import Livre from "../models/Livre";
+import Footer from "../../components/Footer";
+import Header from "../../components/Header";
+import Livre from "../../models/Livre";
 import { Pencil, Trash2, Plus } from "lucide-react";
-import { useRouter } from "next/navigation";
 
 const Livres = () => {
     const [livres, setLivres] = useState([]);
     const auteurId = localStorage.getItem("id");
-    const router = useRouter();
+
     useEffect(() => {
         const fetchLivres = async () => {
             if (auteurId) {
@@ -61,7 +60,7 @@ const Livres = () => {
 
                 <div style={{ display: 'flex', flexDirection: 'row', marginBottom: 20 }}>
                     <p style={{ flex: 0.7 }}>Offrez aux lecteurs leur format préféré : publiez votre ebook dès aujourd’hui !</p>
-                    <button onClick={() => router.push("./CreationLivre")} 
+                    <button onClick={() => router.push("../")} 
                         style={{
                             flex: 0.3, height: 51, width: 160, display: 'flex', 
                             flexDirection: 'row', alignItems: 'center', backgroundColor: '#0cc0DF', 
