@@ -61,7 +61,7 @@ const VentesPage = () => {
     }, [auteurId]);
 
     return (
-        <div style={{ margin: 0, flex: 1, border: '1px solid black', padding: '48px 16px', flex: 1, height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
+        <div style={{ margin: 0, flex: 1, border: '1px solid black', padding: '48px 16px', flex: 1, height: '100vh', display: 'flex', flexDirection: 'column', width: '100%' }}>
             <div style={{ height: '100%' }}>
                 <Header title="Ventes" subTitle="Gardez un œil sur vos revenus et vos ventes en temps réel :" />
                 {/* Affichage du chiffre d'affaires total */}
