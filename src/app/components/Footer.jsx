@@ -21,27 +21,27 @@ const Button = ({ active }) => {
   return (
     <StyledWrapper>
       <div className="button-container">
-        <button onClick={() => router.push("../")} className={`button ${active === "home" ? "active" : ""}`}>
+        <button onClick={() => router.push("../Stats/")} className={`button ${active === "home" ? "active" : ""}`}>
           <Image src={active == "home" ? homeActive : home} alt="Accueil" className="icon" />
           <span className="legend">Accueil</span>
         </button>
 
-        <button onClick={() => router.push("./Ventes/")} className={`button ${active === "coin" ? "active" : ""}`}>
+        <button onClick={() => router.push("../Ventes/")} className={`button ${active === "coin" ? "active" : ""}`}>
           <Image src={active === "coin" ? coinActive : coin} alt="Consultations" className="icon" />
           <span className="legend">Ventes</span>
         </button>
 
-        <button onClick={() => router.push("./Livres/")} className={`button ${active === "book" ? "active" : ""}`}>
+        <button onClick={() => router.push("../Livres/")} className={`button ${active === "book" ? "active" : ""}`}>
           <Image src={active === "book" ? bookActive : book} alt="Notifications" className="icon" />
           <span className="legend">Livres</span>
         </button>
 
-        <button onClick={() => router.push("./Profile/")} className={`button ${active === "user" ? "active" : ""}`}>
+        <button onClick={() => router.push("../Profile/")} className={`button ${active === "user" ? "active" : ""}`}>
           <Image src={active === "user" ? userActive : user} alt="Profile" className="icon" />
           <span className="legend">Profile</span>
         </button>
 
-        <button onClick={() => router.push("./Payment/")} className={`button ${active === "wallet" ? "active" : ""}`}>
+        <button onClick={() => router.push("../Payment/")} className={`button ${active === "wallet" ? "active" : ""}`}>
           <Image src={active === "wallet" ? walletActive : wallet} alt="Wallet" className="icon" />
           <span className="legend">Paiements</span>
         </button>
