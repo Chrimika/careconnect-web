@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Footer from "./components/Footer";
-import Header from "./components/Header";
-import DataCard from "./components/DataCard";
-import Stats from "../app/models/Stats";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
+import DataCard from "../components/DataCard";
+import Stats from "../../app/models/Stats";
 
 const HomeScreen = () => {
   const [nbrLivres, setNbrLivres] = useState(0);
