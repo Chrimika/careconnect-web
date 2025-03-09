@@ -8,8 +8,15 @@ import { useRouter } from "next/navigation";
 
 const Livres = () => {
     const [livres, setLivres] = useState([]);
-    const auteurId = localStorage.getItem("id");
+    const [auteurId, setAuteurId] = useState(null);
     const router = useRouter();
+
+
+    useEffect(() => {
+        const id = localStorage.getItem("id");
+        setAuteurId(id);
+    }, []);
+
     useEffect(() => {
         const fetchLivres = async () => {
             if (auteurId) {

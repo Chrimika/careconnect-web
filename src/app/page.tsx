@@ -1,19 +1,12 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
-import { Specialites } from "./datas/specialities";
-import { FiBell, FiFile, FiUser } from "react-icons/fi";
-import logo from "./assets/images/logo.png";
-import doctorHero from "./assets/images/doctorHero.png";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import DataCard from "./components/DataCard";
 import Stats from "../app/models/Stats";
 
 const HomeScreen = () => {
-  const router = useRouter();
   const [nbrLivres, setNbrLivres] = useState(0);
   const [chiffreAffaire, setChiffreAffaire] = useState(0);
 
