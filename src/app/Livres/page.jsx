@@ -69,10 +69,10 @@ const Livres = () => {
 
                 <div style={{ display: 'flex', flexDirection: 'row', marginBottom: 20 }}>
                     <p style={{ flex: 0.7 }}>Offrez aux lecteurs leur format préféré : publiez votre ebook dès aujourd’hui !</p>
-                    <Link href="../CreationLivre" prefetch>
+                    <Link style={{flex: 0.3}} href="../CreationLivre" prefetch>
                     <button 
                         style={{
-                            flex: 0.3, height: 51, width: 160, display: 'flex', 
+                             height: 51, width: 160, display: 'flex', 
                             flexDirection: 'row', alignItems: 'center', backgroundColor: '#0cc0DF', 
                             padding: 15, borderRadius: 15, justifyContent: 'center'
                         }}>

@@ -109,7 +109,7 @@ const Login = () => {
                 id="login-btn"
                 className={styles.loginButton}
                 style={{backgroundColor:'#0cc0cd'}}
-                onClick={()=> router.push("./Livres")}
+                onClick={handleLogin}
                 disabled={isLoading}
             >
                 {isLoading ? "Connexion en cours..." : "Se connecter"}
