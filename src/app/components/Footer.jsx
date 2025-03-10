@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import Image from "next/image";
 import React from "react";
 import styled from "styled-components";
@@ -16,35 +16,43 @@ import userActive from "../assets/images/userNav-active.png";
 import walletActive from "../assets/images/wallet-active.png";
 
 const Button = ({ active }) => {
-  const router = useRouter();
-
   return (
     <StyledWrapper>
       <div className="button-container">
-        <button onClick={() => router.push("../Stats/")} className={`button ${active === "home" ? "active" : ""}`}>
-          <Image src={active == "home" ? homeActive : home} alt="Accueil" className="icon" />
-          <span className="legend">Accueil</span>
-        </button>
+        <Link href="../Stats/" prefetch>
+          <button className={`button ${active === "home" ? "active" : ""}`}>
+            <Image src={active === "home" ? homeActive : home} alt="Accueil" className="icon" priority={true} />
+            <span className="legend">Accueil</span>
+          </button>
+        </Link>
 
-        <button onClick={() => router.push("../Ventes/")} className={`button ${active === "coin" ? "active" : ""}`}>
-          <Image src={active === "coin" ? coinActive : coin} alt="Consultations" className="icon" />
-          <span className="legend">Ventes</span>
-        </button>
+        <Link href="../Ventes/" prefetch>
+          <button className={`button ${active === "coin" ? "active" : ""}`}>
+            <Image src={active === "coin" ? coinActive : coin} alt="Consultations" className="icon" priority={true} />
+            <span className="legend">Ventes</span>
+          </button>
+        </Link>
 
-        <button onClick={() => router.push("../Livres/")} className={`button ${active === "book" ? "active" : ""}`}>
-          <Image src={active === "book" ? bookActive : book} alt="Notifications" className="icon" />
-          <span className="legend">Livres</span>
-        </button>
+        <Link href="../Livres/" prefetch>
+          <button className={`button ${active === "book" ? "active" : ""}`}>
+            <Image src={active === "book" ? bookActive : book} alt="Notifications" className="icon" priority={true} />
+            <span className="legend">Livres</span>
+          </button>
+        </Link>
 
-        <button onClick={() => router.push("../Profile/")} className={`button ${active === "user" ? "active" : ""}`}>
-          <Image src={active === "user" ? userActive : user} alt="Profile" className="icon" />
-          <span className="legend">Profile</span>
-        </button>
+        <Link href="../Profile/" prefetch>
+          <button className={`button ${active === "user" ? "active" : ""}`}>
+            <Image src={active === "user" ? userActive : user} alt="Profile" className="icon" priority={true} />
+            <span className="legend">Profile</span>
+          </button>
+        </Link>
 
-        <button onClick={() => router.push("../Payment/")} className={`button ${active === "wallet" ? "active" : ""}`}>
-          <Image src={active === "wallet" ? walletActive : wallet} alt="Wallet" className="icon" />
-          <span className="legend">Paiements</span>
-        </button>
+        <Link href="../Payment/" prefetch>
+          <button className={`button ${active === "wallet" ? "active" : ""}`}>
+            <Image src={active === "wallet" ? walletActive : wallet} alt="Wallet" className="icon" priority={true} />
+            <span className="legend">Paiements</span>
+          </button>
+        </Link>
       </div>
     </StyledWrapper>
   );
@@ -56,7 +64,7 @@ const StyledWrapper = styled.div`
   left: 0;
   width: 100%;
   z-index: 1000;
-  flex:0.2;
+  flex: 0.2;
 
   .button-container {
     display: flex;

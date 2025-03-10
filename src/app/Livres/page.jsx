@@ -5,6 +5,7 @@ import Header from "../components/Header";
 import Livre from "../models/Livre";
 import { Pencil, Trash2, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const Livres = () => {
     const [livres, setLivres] = useState([]);
@@ -68,7 +69,8 @@ const Livres = () => {
 
                 <div style={{ display: 'flex', flexDirection: 'row', marginBottom: 20 }}>
                     <p style={{ flex: 0.7 }}>Offrez aux lecteurs leur format préféré : publiez votre ebook dès aujourd’hui !</p>
-                    <button onClick={() => router.push("../CreationLivre")} 
+                    <Link href="../CreationLivre" prefetch>
+                    <button 
                         style={{
                             flex: 0.3, height: 51, width: 160, display: 'flex', 
                             flexDirection: 'row', alignItems: 'center', backgroundColor: '#0cc0DF', 
@@ -76,7 +78,8 @@ const Livres = () => {
                         }}>
                         <Plus style={{ fontSize: 14, color: '#fff', cursor: 'pointer' }} />
                         <p style={{ fontSize: 20, color: '#fff' }}>Créer</p>
-                    </button>
+                    </button>                       
+                    </Link>
                 </div>
                 
                 <div style={{ width: "100%", padding: "16px 0" }}>
