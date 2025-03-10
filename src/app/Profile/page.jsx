@@ -22,7 +22,14 @@ const Profile = () => {
         width: "100%",
       }}
     >
-      <div style={{ flex: 0.9 }}>
+      <style>
+          {`
+              div::-webkit-scrollbar {
+                  display: none;
+              }
+          `}
+      </style>
+      <div style={{ flex: 0.8, overflowY: "scroll",height:'100%'  }}>
         <Header title="Profile" subTitle="" />
         <div style={{ marginTop: 32 }}>
           {/* Utilisation correcte de next/image */}
@@ -41,7 +48,7 @@ const Profile = () => {
           <p style={{textAlign:'center',fontSize:12,color:'gray'}}>Developpeur mobile</p>
         </div>
 
-        <div style={{width:379, height:199, backgroundColor:'#f9f9f9',borderRadius:15, marginTop:32, display:'flex', flexDirection:'column'}}>
+        <div style={{width:'100%', height:199, backgroundColor:'#f9f9f9',borderRadius:15, marginTop:32, display:'flex', flexDirection:'column'}}>
             <div style={{flex:1,width:'100%',borderBottomColor:'#fff',borderBottomWidth:2,display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0 32px'}}>
                 <p>Email</p>
                 <p>mbachristian58@gmail.com</p>
@@ -59,7 +66,7 @@ const Profile = () => {
             </div>
         </div>
 
-        <div style={{width:379, height:199, backgroundColor:'#f9f9f9',borderRadius:15, marginTop:32, display:'flex', flexDirection:'column'}}>
+        <div style={{width:'100%', height:199, backgroundColor:'#f9f9f9',borderRadius:15, marginTop:32, display:'flex', flexDirection:'column'}}>
             <div style={{flex:1,width:'100%',borderBottomColor:'#fff',borderBottomWidth:2,display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0 32px'}}>
                 <p>Changer mot de passe</p>
                 <p><Lock size={24}/></p>

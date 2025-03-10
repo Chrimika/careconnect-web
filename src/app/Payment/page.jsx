@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import { useState } from "react";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Image from "next/image";
@@ -8,48 +9,42 @@ import withdrawal from "../assets/images/withdrawal.png"
 import depositeBig from "../assets/images/depositBig.png"
 
 const Payment = () => {
+    const [progress, setProgress] = useState(50);
+
     return(
         <div style={{margin: '0 auto',padding:'0 16px',flex:1,height:'100vh',display:'flex',flexDirection:'column',justifyContent:'center'}}>
-            <div style={{flex:0.9}}>
+            <style>
+                {`
+                    div::-webkit-scrollbar {
+                        display: none;
+                    }
+                `}
+            </style>
+            <div style={{flex:0.8,overflowY: "scroll"}}>
                 <Header title="Paiements" subTitle=""/>
-                <div style={{flex:0.4,width:379, height:180, backgroundColor:'#f9f9f9',borderRadius:15, marginTop:32, display:'flex', flexDirection:'column'}}>
+                <div style={{flex:0.4,width:'100%', height:180, backgroundColor:'#f9f9f9',borderRadius:15, marginTop:32, display:'flex', flexDirection:'column'}}>
                     <div style={{flex:1,width:'100%',display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0 32px'}}>
                         <p style={{fontSize:14}}>Vos revenus</p>
                         <p style={{fontSize:24,fontWeight:'lighter'}}>92,000<span style={{fontSize:15}}>XAF</span></p>
                     </div>
                     <div
                         style={{
-                            flex: 1,
-                            width: "100%",
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            padding: "0 32px",
-                            position: "relative",
-                        }}
-                        >
-                        {/* Barre de fond */}
-                        <div
-                            style={{
-                            width: "100%",
-                            height: 10,
-                            backgroundColor: "#e0e0e0", // Couleur de fond de la barre
-                            borderRadius: 5,
+                            height: "8px",
+                            backgroundColor: "#E0E0E0",
+                            borderRadius: "4px",
                             overflow: "hidden",
                             position: "relative",
-                            }}
+                            margin:'0 32px'
+                        }}
                         >
-                            {/* Barre de progression */}
-                            <div
+                        <div
                             style={{
-                                width: "50%", // 50% rempli
-                                height: "100%",
-                                backgroundColor: "#0CC0DF", // Couleur de la progression
-                                borderRadius: 5,
+                            width: `${progress}%`, // Barre dynamique
+                            height: '8px',
+                            backgroundColor: "#0CC0DF",
+                            borderRadius: "4px",
                             }}
-                            />
-                        </div>
-
+                        ></div>
                     </div>
 
                     <div style={{flex:1,width:'100%',display:'flex',justifyContent:'space-between',padding:'0 32px'}}>
@@ -63,7 +58,7 @@ const Payment = () => {
                     </div>
                 </div>
 
-                <div style={{flex:0.6,width:379, height:300, backgroundColor:'#f9f9f9',borderRadius:15, marginTop:32, display:'flex', flexDirection:'column'}}>
+                <div style={{flex:0.6,width:'100%', height:300, backgroundColor:'#f9f9f9',borderRadius:15, marginTop:32, display:'flex', flexDirection:'column'}}>
                     <div style={{flex:0.5,width:'100%',display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0 32px'}}>
                         <p style={{fontSize:16}}>Transactions</p>
                     </div>
@@ -130,7 +125,7 @@ const Payment = () => {
                     </div>
                 </div>
 
-                <div style={{flex:0.3,width:379, height:150, backgroundColor:'#f9f9f9',borderRadius:15, marginTop:32, display:'flex', flexDirection:'column'}}>
+                <div style={{flex:0.3,width:'100%', height:150, backgroundColor:'#f9f9f9',borderRadius:15, marginTop:32, display:'flex', flexDirection:'column'}}>
                     <div style={{flex:1,display:'flex',justifyContent:'space-between',padding:'16px 16px'}}>
                         <Image
                             src={depositeBig}

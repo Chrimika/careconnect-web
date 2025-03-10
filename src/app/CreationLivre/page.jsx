@@ -322,7 +322,7 @@ const InfoLivre = ({ livreData, setLivreData }) => {
                 </select>
                 </div>
             <div>
-              <p style={{ marginTop: 16 }}>Nombre pages</p>
+              <p style={{ marginTop: 16 }}>Nbr pages</p>
               <input
                 style={{ width: "100%", height: 47, backgroundColor: "#f3f3f3" }}
                 value={livreData.nombrePages}
@@ -357,7 +357,7 @@ const InfoLivre = ({ livreData, setLivreData }) => {
 
           <p style={{ marginTop: 16 }}>Description</p>
           <textarea
-            style={{ width: "100%", height: 174, backgroundColor: "#f3f3f3" }}
+            style={{ width: "100%", height: 174, backgroundColor: "#f3f3f3",marginBottom:15 }}
             value={livreData.description}
             onChange={(e) => handleChange("description", e.target.value)}
           />

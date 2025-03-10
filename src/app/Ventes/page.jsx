@@ -61,21 +61,21 @@ const VentesPage = () => {
     }, [auteurId]);
 
     return (
-        <div style={{ margin: 0, flex: 1, border: '1px solid black', padding: '48px 16px', flex: 1, height: '100vh', display: 'flex', flexDirection: 'column', width: '100%' }}>
-            <div style={{ height: '100%' }}>
+        <div style={{ margin: 0, flex: 1, padding: '48px 16px', flex: 1, height: '100vh', display: 'flex', flexDirection: 'column', width: '100%' }}>
+            <div style={{ height: '100%', overflowY: "scroll" }}>
+                <style>
+                    {`
+                        div::-webkit-scrollbar {
+                            display: none;
+                        }
+                    `}
+                </style>
                 <Header title="Ventes" subTitle="Gardez un œil sur vos revenus et vos ventes en temps réel :" />
                 {/* Affichage du chiffre d'affaires total */}
                 <h2 style={{ fontSize: '32px', margin: '20px 0', textAlign: 'center' }}>{totalRevenu.toLocaleString()} FCFA</h2>
                 
                 {/* Liste des ventes */}
-                <div style={{ width: '100%', maxHeight: '70%', overflowY: 'scroll' }}>
-                    <style>
-                        {`
-                            div::-webkit-scrollbar {
-                                display: none;
-                            }
-                        `}
-                    </style>
+                <div style={{ width: '100%'}}>
                     {ventes.map((vente, index) => (
                         <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '16px' }}>
                             <img src={vente.cover_img} alt={vente.title} style={{ width: '42px', height: '60px', marginRight: '12px' }} />

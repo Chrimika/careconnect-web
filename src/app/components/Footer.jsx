@@ -52,7 +52,7 @@ const Button = ({ active }) => {
 
 const StyledWrapper = styled.div`
   position: fixed;
-  bottom: 20px;
+  bottom: 0;
   left: 0;
   width: 100%;
   z-index: 1000;
@@ -67,7 +67,6 @@ const StyledWrapper = styled.div`
     height: 60px;
     align-items: center;
     justify-content: space-around;
-    border-radius: 20px;
   }
 
   .legend {

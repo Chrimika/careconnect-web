@@ -60,7 +60,7 @@ const Livres = () => {
             height: "100vh",
             width: "100%"
         }}>
-            <div style={{ width: "100%", height: "100%" }}>
+            <div style={{ width: "100%", height: "100%", overflowY: "scroll" }}>
                 <Header 
                     title='Livres' 
                     subTitle='Créez. Gérez. Publiez. Publiez un nouvel ouvrage en cliquant sur Créer. Ou gérez vos œuvres existantes depuis votre bibliothèque ci-dessous.'
@@ -79,7 +79,7 @@ const Livres = () => {
                     </button>
                 </div>
                 
-                <div style={{ width: "100%", maxHeight: "60%", overflowY: "scroll", padding: "16px 0" }}>
+                <div style={{ width: "100%", padding: "16px 0" }}>
                     <style>
                         {`
                             div::-webkit-scrollbar {
