@@ -158,7 +158,7 @@ const Payment = () => {
             ></div>
           </div>
 
-          <div style={{ flex: 1, width: "100%", display: "flex", justifyContent: "space-between", padding: "0 32px", marginTop:16 }}>
+          <div style={{ flex: 1, width: "100%", display: "flex", justifyContent: "space-between", padding: "0 32px" }}>
             <p style={{ fontSize: 7 }}>Vous avez atteint {progress.toFixed(2)}% de votre seuil de paiement</p>
             <div style={{ display: "flex", flexDirection: "column" }}>
               <p style={{ fontSize: 7 }}>Seuil de paiement: <span style={{ fontWeight: "bold", fontSize: 10, color: "#0CC0DF" }}>{seuil.toLocaleString()} XAF</span></p>
@@ -191,19 +191,19 @@ const Payment = () => {
                 <div key={index} style={{ marginTop: 8, display: "flex", justifyContent: "space-between", width: "100%", borderBottomWidth: 1, borderBottomColor: "lightgray", padding: "6px 0" }}>
                   <div style={{ display: "flex", alignItems: "center" }}>
                     <Image
-                      src={transaction.type == "retrait" ?deposite  : withdrawal}
+                      src={transaction.type == "retrait" ? withdrawal : deposite}
                       alt="transaction"
                       width={40}
                       height={10}
                     />
                     <div style={{ marginLeft: 8 }}>
-                      <p style={{ fontSize: 14, fontWeight: "bold", color: "#0cc0cd" }}>{"Papers"}</p>
-                      <p style={{ fontSize: 9 }}>{transaction.type == "retrait" ? "Dépôt d'argent" :"Retrait d'argent" }</p>
+                      <p style={{ fontSize: 14, fontWeight: "bold", color: "#0cc0cd" }}>{"Transaction"}</p>
+                      <p style={{ fontSize: 9 }}>{transaction.type == "retrait" ? "Retrait d'argent" : "Dépôt d'argent"}</p>
                     </div>
                   </div>
                   <div style={{ display: "flex", flexDirection: "column" }}>
-                    <p style={{ color: transaction.type == "retrait" ?"lightgreen" : "red" , fontWeight: "bold" }}>
-                      {transaction.type == "retrait" ? "+" : "-"}{ transaction.prix} FCFA
+                    <p style={{ color: transaction.type == "retrait" ? "red" : "lightgreen", fontWeight: "bold" }}>
+                      {transaction.type == "retrait" ? "-" : "+"}{transaction.montant || transaction.prix} FCFA
                     </p>
                     <p style={{ fontSize: 14, marginLeft: "auto" }}>{new Date(transaction.date?.toDate()).toLocaleTimeString()}</p>
                   </div>

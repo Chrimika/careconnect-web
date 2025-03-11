@@ -261,6 +261,7 @@ const InfoLivre = ({ livreData, setLivreData }) => {
         "Science & Math",
         "Self-Help",
         "Teen & Young Adult",
+        "Women's empowerment"
     ];
 
     return (
