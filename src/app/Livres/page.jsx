@@ -20,17 +20,8 @@ const Livres = () => {
 
     useEffect(() => {
         const fetchLivres = async () => {
-            if (auteurId) {
-                const storedLivres = localStorage.getItem(`livres-${auteurId}`);
-                
-                if (storedLivres) {
-                    setLivres(JSON.parse(storedLivres));
-                } else {
-                    const fetchedLivres = await Livre.getLivresByAuteur(auteurId);
-                    setLivres(fetchedLivres);
-                    localStorage.setItem(`livres-${auteurId}`, JSON.stringify(fetchedLivres));
-                }
-            }
+                const fetchedLivres = await Livre.getLivresByAuteur(auteurId);
+                setLivres(fetchedLivres);
         };
         fetchLivres();
     }, [auteurId]);
