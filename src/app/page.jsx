@@ -55,8 +55,9 @@ const Login = () => {
                 localStorage.setItem("metier", authorData.metier);
                 localStorage.setItem("tel", authorData.tel);
                 localStorage.setItem("ville", authorData.ville);
-                localStorage.setItem("photo", authorData.photoUrl);
+                localStorage.setItem("photo", authorData.photo);
                 localStorage.setItem("solde", authorData.solde);
+
 
                 // Rediriger vers la page Livres
                 router.push("/Livres");

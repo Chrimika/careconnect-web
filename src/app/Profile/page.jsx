@@ -1,14 +1,43 @@
 "use client";
 import React from "react";
+import { useState, useEffect } from "react";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Image from "next/image";
 import user from "../assets/images/user.png";
 import { LogOut, Info, Lock, ChevronRight } from "lucide-react";
-
+import Link from "next/link";
+import { vi } from "date-fns/locale";
 
 
 const Profile = () => {
+
+  const [auteurId, setAuteurId] = useState(null); 
+  const [email, setEmail] = useState(null);
+  const [tel, setTel] = useState(null); 
+  const [ville, setVille] = useState(null); 
+  const [metier, setMetier] = useState(null); 
+  const [nom, setNom] = useState(null); 
+  const [photo, setPhoto] = useState(null); 
+
+  useEffect(() => {
+      const id = localStorage.getItem("id");
+      const email = localStorage.getItem("email");
+      const tel = localStorage.getItem("tel");
+      const ville = localStorage.getItem("ville");
+      const metier = localStorage.getItem("metier");
+      const nom = localStorage.getItem("name");
+      const photo = localStorage.getItem("photo");
+
+      setAuteurId(id);
+      setEmail(email);
+      setMetier(metier);
+      setTel(tel);
+      setVille(ville);
+      setNom(nom);
+      setPhoto(photo);
+  }, []);
+
   return (
     <div
       style={{
@@ -34,34 +63,34 @@ const Profile = () => {
         <div style={{ marginTop: 32 }}>
           {/* Utilisation correcte de next/image */}
           <Image
-            src={user}
+            src={photo?.startsWith("http") ? photo : user}
             alt="Logo"
             width={150}
             height={150}
-            style={{borderRadius:75,margin:'0 auto'}}
-            priority // optionnel, permet de prioriser le chargement de l'image
+            style={{ borderRadius: 75, margin: '0 auto' }}
           />
+
         </div>
 
         <div style={{marginTop:32}}>
-          <p style={{textAlign:'center',fontSize:13,fontWeight:'bold'}}>Mika MBA</p>
-          <p style={{textAlign:'center',fontSize:12,color:'gray'}}>Developpeur mobile</p>
+          <p style={{textAlign:'center',fontSize:13,fontWeight:'bold'}}>{nom}</p>
+          <p style={{textAlign:'center',fontSize:12,color:'gray'}}>{metier}</p>
         </div>
 
         <div style={{width:'100%', height:199, backgroundColor:'#f9f9f9',borderRadius:15, marginTop:32, display:'flex', flexDirection:'column'}}>
             <div style={{flex:1,width:'100%',borderBottomColor:'#fff',borderBottomWidth:2,display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0 32px'}}>
                 <p>Email</p>
-                <p>mbachristian58@gmail.com</p>
+                <p>{email}</p>
                 <p><ChevronRight size={24}/></p>
             </div>
             <div style={{flex:1,width:'100%',borderBottomColor:'#fff',borderBottomWidth:2,display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0 32px'}}>
                 <p>Tel</p>
-                <p>+237 672 094 167</p>
+                <p>{tel}</p>
                 <p><ChevronRight size={24}/></p>
             </div>
             <div style={{flex:1,width:'100%',borderBottomColor:'#fff',borderBottomWidth:2,display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0 32px'}}>
                 <p>Address</p>
-                <p>Yaounde, Damas</p>
+                <p>{ville}</p>
                 <p><ChevronRight size={24}/></p>
             </div>
         </div>
@@ -75,10 +104,14 @@ const Profile = () => {
                 <p>Help</p>
                 <p><Info size={24}/></p>
             </div>
-            <div style={{flex:1,width:'100%',borderBottomColor:'#fff',borderBottomWidth:2,display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0 32px'}}>
-                <p style={{color:'red'}}>Logout</p>
-                <p><LogOut size={24} color="red"/></p>
-            </div>
+
+            <Link style={{flex:1,width:'100%',borderBottomColor:'#fff',borderBottomWidth:2,display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0 32px'}} href="../">
+              
+                  <p style={{color:'red'}}>Logout</p>
+                  <p><LogOut size={24} color="red"/></p>
+              
+            </Link>
+            
         </div>
       </div>
       <Footer active={"user"} />

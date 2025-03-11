@@ -103,13 +103,14 @@ class Livre {
         nbr_lecture: livreData.nbr_lecture || 0, // Valeur par défaut
         nbr_user_note: livreData.nbr_user_note || 0, // Valeur par défaut
         nbr_vues: livreData.nbr_vues || 0, // Valeur par défaut
-        note: livreData.note || 0, // Valeur par défaut
+        note: "0", // Valeur par défaut
         pdfUrl: pdfUrl, // URL du PDF après upload
         small_summary: livreData.small_summary,
         summary: livreData.summary,
-        verdict: livreData.verdict || "pending", // Valeur par défaut
+        verdict: livreData.verdict || "loading", // Valeur par défaut
         caracteristiques: caracteristiques, // Ajout des caractéristiques
-        hauteur: auteurId, // ID de l'auteur récupéré du localStorage
+        hauteur: auteurId, 
+        revues: []
       };
       console.log("Données du livre prêtes pour Firestore :", livreFirestoreData);
   
