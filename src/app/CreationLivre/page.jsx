@@ -5,6 +5,7 @@ import { useState } from "react";
 import Livre from '../models/Livre';
 import { useRouter } from "next/navigation";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import Loader from "../components/LoaderPapers"
 
 const CreateLivre = () => {
     const router = useRouter();
@@ -202,9 +203,7 @@ const CreateLivre = () => {
                         disabled={isLoading} // Désactiver le bouton pendant le chargement
                     >
                         {isLoading ? (
-                            <div className="loader">
-                                <div className="spinner"></div>
-                            </div>
+                            <p style={{ color: "#fff", fontWeight: "bold" }}>En cours...</p>
                         ) : (
                             <p style={{ color: "#fff", fontWeight: "bold" }}>Soumettre</p>
                         )}
@@ -381,8 +380,26 @@ const InfoLivre = ({ livreData, setLivreData }) => {
     );
 };
 
-// Composant ContenuLivre
 const ContenuLivre = ({ handleFileChange, previewPdfUrl, previewImageUrl, isLoading }) => {
+    if (isLoading) {
+        return (
+            <div style={{
+                position: "fixed",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "rgba(255, 255, 255, 0.8)",
+                zIndex: 9999,
+            }}>
+                <Loader color="#0cc0cd"/>
+            </div>
+        );
+    }
+
     return (
         <div>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -434,7 +451,7 @@ const ContenuLivre = ({ handleFileChange, previewPdfUrl, previewImageUrl, isLoad
                     accept="application/pdf"
                     style={{ display: "none" }}
                     onChange={(e) => handleFileChange(e, "pdf")}
-                    disabled={isLoading} // Désactiver le champ pendant le chargement
+                    disabled={isLoading} 
                 />
             </div>
 
@@ -485,7 +502,7 @@ const ContenuLivre = ({ handleFileChange, previewPdfUrl, previewImageUrl, isLoad
                     accept="image/*"
                     style={{ display: "none" }}
                     onChange={(e) => handleFileChange(e, "image")}
-                    disabled={isLoading} // Désactiver le champ pendant le chargement
+                    disabled={isLoading} 
                 />
             </div>
 
@@ -510,8 +527,14 @@ const ContenuLivre = ({ handleFileChange, previewPdfUrl, previewImageUrl, isLoad
     );
 };
 
-// Composant PrixAuteur
-const PrixAuteur = ({ livreData, handlePrixChange, setLivreData }) => {
+
+const PrixAuteur = ({ livreData, handlePrixChange, setLivreData, isLoading }) => {
+    // Si isLoading est true, afficher le Loader
+    if (isLoading) {
+        return <Loader color="#0cc0cd"/>;
+    }
+
+    // Sinon, afficher le contenu normal
     return (
         <div>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
