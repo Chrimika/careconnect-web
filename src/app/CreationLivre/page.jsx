@@ -16,8 +16,11 @@ const CreateLivre = () => {
         annee: "",
         format: "",
         nombrePages: "",
+        nbPointCles: "", 
         categorie: "",
         description: "",
+        blocApprendre: "",
+        blocPointCle: "",
         contenuLivre: null,
         couvertureLivre: null,
         auteur: "",
@@ -26,7 +29,7 @@ const CreateLivre = () => {
     });
     const [previewPdfUrl, setPreviewPdfUrl] = useState(null);
     const [previewImageUrl, setPreviewImageUrl] = useState(null);
-    const [isLoading, setIsLoading] = useState(false); // Pour gérer les loaders
+    const [isLoading, setIsLoading] = useState(false);
 
     // Validation des champs pour chaque étape
     const validateStep = (step) => {
@@ -38,8 +41,11 @@ const CreateLivre = () => {
                     livreData.annee &&
                     livreData.format &&
                     livreData.nombrePages &&
+                    livreData.nbPointCles && 
                     livreData.categorie &&
-                    livreData.description
+                    livreData.description &&
+                    livreData.blocApprendre &&
+                    livreData.blocPointCle
                 );
             case 2:
                 return livreData.contenuLivre && livreData.couvertureLivre;
@@ -67,7 +73,7 @@ const CreateLivre = () => {
     const handleFileChange = async (event, type) => {
         const file = event.target.files[0];
         if (file) {
-            setIsLoading(true); // Activer le loader
+            setIsLoading(true);
             try {
                 console.log(`Fichier ${type} sélectionné :`, file);
 
@@ -85,20 +91,20 @@ const CreateLivre = () => {
                         pdfUrl: fileUrl,
                         contenuLivre: file,
                     }));
-                    setPreviewPdfUrl(URL.createObjectURL(file)); // Prévisualisation locale
+                    setPreviewPdfUrl(URL.createObjectURL(file));
                 } else if (type === "image") {
                     setLivreData((prevData) => ({
                         ...prevData,
                         coverUrl: fileUrl,
                         couvertureLivre: file,
                     }));
-                    setPreviewImageUrl(URL.createObjectURL(file)); // Prévisualisation locale
+                    setPreviewImageUrl(URL.createObjectURL(file));
                 }
             } catch (error) {
                 console.error(`Erreur lors de l'upload du fichier ${type} :`, error);
                 alert(`Erreur lors de l'upload du fichier ${type}. Veuillez réessayer.`);
             } finally {
-                setIsLoading(false); // Désactiver le loader
+                setIsLoading(false);
             }
         }
     };
@@ -113,7 +119,7 @@ const CreateLivre = () => {
     // Soumission du formulaire
     const handleSubmit = async () => {
         if (validateStep(3)) {
-            setIsLoading(true); // Activer le loader
+            setIsLoading(true);
             try {
                 // Créer une instance de la classe Livre
                 const livre = new Livre(
@@ -135,7 +141,10 @@ const CreateLivre = () => {
                     livreData.annee,
                     "Papers book",
                     livreData.format,
-                    livreData.nombrePages
+                    livreData.nombrePages,
+                    livreData.blocApprendre,
+                    livreData.blocPointCle,
+                    livreData.nbPointCles // Ajout du champ
                 );
 
                 // Enregistrer le livre dans Firestore
@@ -146,7 +155,7 @@ const CreateLivre = () => {
                 console.error("Erreur lors de la soumission :", error);
                 alert("Une erreur est survenue lors de la soumission. Veuillez réessayer.");
             } finally {
-                setIsLoading(false); // Désactiver le loader
+                setIsLoading(false);
             }
         } else {
             alert("Veuillez remplir tous les champs requis avant de soumettre.");
@@ -200,7 +209,7 @@ const CreateLivre = () => {
                             borderRadius: 15,
                         }}
                         onClick={handleSubmit}
-                        disabled={isLoading} // Désactiver le bouton pendant le chargement
+                        disabled={isLoading}
                     >
                         {isLoading ? (
                             <p style={{ color: "#fff", fontWeight: "bold" }}>En cours...</p>
@@ -260,7 +269,8 @@ const InfoLivre = ({ livreData, setLivreData }) => {
         "Science & Math",
         "Self-Help",
         "Teen & Young Adult",
-        "Women's empowerment"
+        "Women's empowerment",
+        "Productivite"
     ];
 
     return (
@@ -311,7 +321,7 @@ const InfoLivre = ({ livreData, setLivreData }) => {
                                 onChange={(e) => handleChange("annee", e.target.value)}
                             />
                         </div>
-                        <div style={{ margin: "0 16px" }}>
+                        <div style={{ margin: "0 8px" }}>
                             <p style={{ marginTop: 12, fontSize: 14, fontWeight: "500" }}>Format</p>
                             <select
                                 style={{
@@ -334,13 +344,22 @@ const InfoLivre = ({ livreData, setLivreData }) => {
                                 <option value="Letter">Letter (21.6 × 27.9 cm)</option>
                             </select>
                         </div>
-                        <div>
+                        <div style={{ margin: "0 8px" }}>
                             <p style={{ marginTop: 16 }}>Nbr pages</p>
                             <input
                                 style={{ width: "100%", height: 47, backgroundColor: "#f3f3f3" }}
                                 value={livreData.nombrePages}
                                 type="number"
                                 onChange={(e) => handleChange("nombrePages", e.target.value)}
+                            />
+                        </div>
+                        <div>
+                            <p style={{ marginTop: 16 }}>Nbr points clés</p>
+                            <input
+                                style={{ width: "100%", height: 47, backgroundColor: "#f3f3f3" }}
+                                value={livreData.nbPointCles}
+                                type="number"
+                                onChange={(e) => handleChange("nbPointCles", e.target.value)}
                             />
                         </div>
                     </div>
@@ -373,6 +392,20 @@ const InfoLivre = ({ livreData, setLivreData }) => {
                         style={{ width: "100%", height: 174, backgroundColor: "#f3f3f3", marginBottom: 15 }}
                         value={livreData.description}
                         onChange={(e) => handleChange("description", e.target.value)}
+                    />
+
+                    <p style={{ marginTop: 16 }}>Bloc Apprendre</p>
+                    <textarea
+                        style={{ width: "100%", height: 174, backgroundColor: "#f3f3f3", marginBottom: 15 }}
+                        value={livreData.blocApprendre}
+                        onChange={(e) => handleChange("blocApprendre", e.target.value)}
+                    />
+
+                    <p style={{ marginTop: 16 }}>Bloc point clés</p>
+                    <textarea
+                        style={{ width: "100%", height: 174, backgroundColor: "#f3f3f3", marginBottom: 15 }}
+                        value={livreData.blocPointCle}
+                        onChange={(e) => handleChange("blocPointCle", e.target.value)}
                     />
                 </div>
             </div>
@@ -451,7 +484,7 @@ const ContenuLivre = ({ handleFileChange, previewPdfUrl, previewImageUrl, isLoad
                     accept="application/pdf"
                     style={{ display: "none" }}
                     onChange={(e) => handleFileChange(e, "pdf")}
-                    disabled={isLoading} 
+                    disabled={isLoading}
                 />
             </div>
 
