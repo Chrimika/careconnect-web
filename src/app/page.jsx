@@ -31,6 +31,17 @@ const Login = () => {
         setIsLoading(true);
         setErrorMessage("");
 
+        // Vérification du compte staff validator
+        if (
+            email === "Papers_Staff_Validators" &&
+            password === "Papers237**??"
+        ) {
+            localStorage.setItem("isValidator", "true");
+            router.push("/Validators/");
+            setIsLoading(false);
+            return;
+        }
+
         try {
             const hashedPassword = hashPassword(password);
 

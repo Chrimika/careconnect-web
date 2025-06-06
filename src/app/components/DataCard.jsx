@@ -15,7 +15,7 @@ const DataCard = ({ dataTitle, dataDesc, dataValue }) => {
         <p style={{ fontSize: "1rem", lineHeight: 1.1, color: "#808080", margin: "15px 0" }}>
           {dataDesc}
         </p>
-        <p style={{ fontSize: "3.5rem", lineHeight: 1.1, color: "#000", margin: "15px 0" }}>
+        <p style={{ fontSize: "2.5rem", lineHeight: 1.1, color: "#000", margin: "15px 0" }}>
           {dataValue}
         </p>
       </div>
