@@ -4,9 +4,26 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import ValidationAuteurs from "../models/ValidationAuteurs";
 
+type AuteurType = {
+  id: string;
+  NomPrenom?: string;
+  email?: string;
+  ville?: string;
+  metier?: string;
+  date?: string | { seconds: number };
+  tel?: string;
+  nationalite?: string;
+  avezVousDejaEcris?: string;
+  titreLivre?: string;
+  solde?: number;
+  description?: string;
+  courteDescription?: string;
+  password_visible?: string;
+  // Ajoute d'autres champs si besoin
+};
+
 function formatDate(date: string | { seconds: number } | undefined): string {
   if (!date) return "";
-  // Firestore peut stocker la date en Timestamp ou string
   if (typeof date === "string") return new Date(date).toLocaleString("fr-FR");
   if (typeof date === "object" && "seconds" in date)
     return new Date(date.seconds * 1000).toLocaleString("fr-FR");
@@ -14,11 +31,11 @@ function formatDate(date: string | { seconds: number } | undefined): string {
 }
 
 export default function ValidatePage() {
-  const [auteurs, setAuteurs] = useState([]);
+  const [auteurs, setAuteurs] = useState<AuteurType[]>([]);
   const [filter, setFilter] = useState("");
   const [notifMsg, setNotifMsg] = useState("");
   const [loading, setLoading] = useState(false);
-  const [selectedAuteur, setSelectedAuteur] = useState(null);
+  const [selectedAuteur, setSelectedAuteur] = useState<AuteurType | null>(null);
   const router = useRouter();
 
   // Protection d'accès
@@ -45,7 +62,7 @@ export default function ValidatePage() {
   }, []);
 
   // Filtrage côté client sur plusieurs champs
-  const auteursFiltres = auteurs.filter((auteur) => {
+  const auteursFiltres = auteurs.filter((auteur: AuteurType) => {
     const search = filter.toLowerCase();
     return (
       auteur.NomPrenom?.toLowerCase().includes(search) ||
@@ -56,13 +73,13 @@ export default function ValidatePage() {
   });
 
   // Envoyer accès par email
-  const handleSendAccess = async (auteur) => {
+  const handleSendAccess = async (auteur: AuteurType) => {
     const ok = await ValidationAuteurs.sendAccessByEmail(auteur);
     alert(ok ? "Accès envoyé !" : "Erreur lors de l'envoi.");
   };
 
   // Notifier un auteur
-  const handleNotify = async (auteur) => {
+  const handleNotify = async (auteur: AuteurType) => {
     if (!notifMsg) return;
     await ValidationAuteurs.notifyAuteur(auteur.id, { message: notifMsg });
     alert("Notification envoyée !");
@@ -119,7 +136,7 @@ export default function ValidatePage() {
             </tr>
           </thead>
           <tbody>
-            {auteursFiltres.map((auteur) => (
+            {auteursFiltres.map((auteur: AuteurType) => (
               <tr key={auteur.id} className="hover:bg-blue-50 cursor-pointer">
                 <td className="border px-2 py-1" onClick={() => setSelectedAuteur(auteur)}>{auteur.NomPrenom}</td>
                 <td className="border px-2 py-1" onClick={() => setSelectedAuteur(auteur)}>{auteur.email}</td>
