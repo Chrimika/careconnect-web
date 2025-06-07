@@ -21,7 +21,7 @@ const EditLivre = () => {
         fetchLivre();
     }, [livreId]);
 
-    const handleChange = (e) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setLivre({ ...livre, [e.target.name]: e.target.value });
     };
 
