@@ -2,6 +2,31 @@ import { firestore } from "../firebase";
 import { collection, getDocs, query, orderBy, where, updateDoc, doc } from "firebase/firestore";
 import emailjs from "@emailjs/browser"; // Nécessite configuration EmailJS
 
+type AuteurType = {
+  id: string;
+  NomPrenom?: string;
+  email?: string;
+  ville?: string;
+  metier?: string;
+  date?: string | { seconds: number };
+  tel?: string;
+  nationalite?: string;
+  avezVousDejaEcris?: string;
+  titreLivre?: string;
+  solde?: number;
+  description?: string;
+  courteDescription?: string;
+  password_visible?: string;
+  // Ajoute d'autres champs si besoin
+};
+
+// Ajoute un type pour la notification
+type NotifType = {
+  message: string;
+  date?: string;
+  // Ajoute d'autres champs si besoin
+};
+
 class ValidationAuteurs {
   // Récupérer tous les auteurs, du plus récent au plus ancien
   static async getAuteurs(filter = "") {
@@ -26,7 +51,7 @@ class ValidationAuteurs {
   }
 
   // Envoyer les accès par email à un auteur
-  static async sendAccessByEmail(auteur) {
+  static async sendAccessByEmail(auteur: AuteurType) {
     try {
       // Nécessite configuration EmailJS (voir https://www.emailjs.com/)
       await emailjs.send(
@@ -47,12 +72,12 @@ class ValidationAuteurs {
   }
 
   // Ajouter une notification à un auteur
-  static async notifyAuteur(auteurId, notif) {
+  static async notifyAuteur(auteurId: string, notif: NotifType) {
     try {
       const auteurRef = doc(firestore, "auteurs", auteurId);
       // On récupère les notifs existantes
       const auteurSnap = await getDocs(query(collection(firestore, "auteurs"), where("id", "==", auteurId)));
-      let notifs = [];
+      let notifs: NotifType[] = [];
       if (!auteurSnap.empty) {
         notifs = auteurSnap.docs[0].data().notif || [];
       }
@@ -66,7 +91,7 @@ class ValidationAuteurs {
   }
 
   // Notifier tous les auteurs
-  static async notifyAllAuteurs(notif) {
+  static async notifyAllAuteurs(notif: NotifType) {
     const auteurs = await this.getAuteurs();
     for (const auteur of auteurs) {
       await this.notifyAuteur(auteur.id, notif);
