@@ -9,7 +9,11 @@ interface LivreType {
   name: string;
   price: number;
   small_summary?: string;
-  [key: string]: any;
+  summary?: string;
+  genre?: string;
+  coverUrl?: string;
+  verdict?: string;
+  // Ajoute ici tous les champs nécessaires
 }
 
 const EditLivre = () => {
