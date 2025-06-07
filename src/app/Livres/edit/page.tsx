@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import Livre from "../../models/Livre";
 import { useRouter, useSearchParams } from "next/navigation";
 import Loader from "../../components/Loader";
@@ -16,7 +16,7 @@ interface LivreType {
   // Ajoute ici tous les champs nécessaires
 }
 
-const EditLivre = () => {
+const EditLivreInner = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
     const livreId = searchParams.get("id");
@@ -103,5 +103,11 @@ const EditLivre = () => {
         </div>
     );
 };
+
+const EditLivre = () => (
+    <Suspense fallback={<Loader />}>
+        <EditLivreInner />
+    </Suspense>
+);
 
 export default EditLivre;
