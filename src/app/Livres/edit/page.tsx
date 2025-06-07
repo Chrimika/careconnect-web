@@ -4,17 +4,25 @@ import Livre from "../../models/Livre";
 import { useRouter, useSearchParams } from "next/navigation";
 import Loader from "../../components/Loader";
 
+interface LivreType {
+  id: string;
+  name: string;
+  price: number;
+  small_summary?: string;
+  [key: string]: any;
+}
+
 const EditLivre = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
     const livreId = searchParams.get("id");
-    const [livre, setLivre] = useState(null);
+    const [livre, setLivre] = useState<LivreType | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchLivre = async () => {
             const livres = await Livre.getLivresByAuteur(localStorage.getItem("id"));
-            const found = livres.find(l => l.id === livreId);
+            const found = livres.find((l: LivreType) => l.id === livreId) || null;
             setLivre(found);
             setLoading(false);
         };
@@ -22,13 +30,13 @@ const EditLivre = () => {
     }, [livreId]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        if (!livre) return; // Sécurité : ne rien faire si livre est null
+        if (!livre || typeof livre !== "object") return;
         setLivre({ ...livre, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // On force la revalidation après modification
+        if (!livre) return;
         const updatedLivre = { ...livre, verdict: "loading" };
         const res = await Livre.updateLivre(livreId, updatedLivre);
         alert(`${res}\nLivre modifié avec succès. Il sera revalidé sous 24H, veuillez patienter.`);
@@ -67,12 +75,11 @@ const EditLivre = () => {
                     <label>Résumé court</label>
                     <textarea
                         name="small_summary"
-                        value={livre.small_summary}
+                        value={livre.small_summary || ""}
                         onChange={handleChange}
                         style={{ width: "100%", padding: 8, borderRadius: 6, border: "1px solid #ccc" }}
                     />
                 </div>
-                {/* Ajoute d'autres champs si besoin */}
                 <button
                     type="submit"
                     style={{
