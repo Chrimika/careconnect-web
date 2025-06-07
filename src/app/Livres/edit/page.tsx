@@ -22,6 +22,7 @@ const EditLivre = () => {
     }, [livreId]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        if (!livre) return; // Sécurité : ne rien faire si livre est null
         setLivre({ ...livre, [e.target.name]: e.target.value });
     };
 
