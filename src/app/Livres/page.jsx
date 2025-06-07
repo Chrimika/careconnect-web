@@ -26,6 +26,20 @@ const Livres = () => {
         fetchLivres();
     }, [auteurId]);
 
+    const handleDelete = async (livreId) => {
+        if (window.confirm("Voulez-vous vraiment supprimer ce livre ?")) {
+            const res = await Livre.deleteLivre(livreId);
+            alert(res);
+            // Rafraîchir la liste
+            const fetchedLivres = await Livre.getLivresByAuteur(auteurId);
+            setLivres(fetchedLivres);
+        }
+    };
+
+    const handleEdit = (livre) => {
+        router.push(`/Livres/edit?id=${livre.id}`);
+    };
+
     // Fonction pour obtenir la couleur et le texte du statut
     const getStatus = (verdict) => {
         switch (verdict) {
@@ -117,8 +131,18 @@ const Livres = () => {
                                             {livre.price} <span style={{ color: 'gray', fontSize: 10, marginLeft: -6 }}>XAF</span>
                                         </p>
                                         <p style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', width: '100%' }}>
-                                            <Pencil size={20} style={{ color: 'green', cursor: 'pointer', marginRight: '8px' }} />
-                                            <Trash2 size={20} style={{ color: '#d9534f', cursor: 'pointer' }} />
+                                            <Pencil
+                                                size={20}
+                                                style={{ color: 'green', cursor: 'pointer', marginRight: '8px' }}
+                                                onClick={() => handleEdit(livre)}
+                                                title="Modifier"
+                                            />
+                                            <Trash2
+                                                size={20}
+                                                style={{ color: '#d9534f', cursor: 'pointer' }}
+                                                onClick={() => handleDelete(livre.id)}
+                                                title="Supprimer"
+                                            />
                                         </p>
                                     </div>
                                 </div>
