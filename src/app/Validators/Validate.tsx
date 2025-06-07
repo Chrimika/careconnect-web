@@ -4,11 +4,12 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import ValidationAuteurs from "../models/ValidationAuteurs";
 
-function formatDate(date) {
+function formatDate(date: string | { seconds: number } | undefined): string {
   if (!date) return "";
   // Firestore peut stocker la date en Timestamp ou string
   if (typeof date === "string") return new Date(date).toLocaleString("fr-FR");
-  if (date.seconds) return new Date(date.seconds * 1000).toLocaleString("fr-FR");
+  if (typeof date === "object" && "seconds" in date)
+    return new Date(date.seconds * 1000).toLocaleString("fr-FR");
   return "";
 }
 
