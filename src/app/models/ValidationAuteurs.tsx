@@ -6,7 +6,7 @@ class ValidationAuteurs {
   // Récupérer tous les auteurs, du plus récent au plus ancien
   static async getAuteurs(filter = "") {
     try {
-      let auteursRef = collection(firestore, "auteurs");
+      const auteursRef = collection(firestore, "auteurs"); // ← ici
       let q = query(auteursRef, orderBy("date", "desc"));
       if (filter) {
         // Filtre sur le nom, prénom ou email
