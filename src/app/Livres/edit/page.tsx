@@ -30,7 +30,7 @@ const EditLivre = () => {
         // On force la revalidation après modification
         const updatedLivre = { ...livre, verdict: "loading" };
         const res = await Livre.updateLivre(livreId, updatedLivre);
-        alert("Livre modifié avec succès. Il sera revalidé sous 24H, veuillez patienter.");
+        alert(`${res}\nLivre modifié avec succès. Il sera revalidé sous 24H, veuillez patienter.`);
         router.push("/Livres");
     };
 

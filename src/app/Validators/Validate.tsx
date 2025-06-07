@@ -171,7 +171,7 @@ export default function ValidatePage() {
             <div className="mb-2"><b>A déjà écrit ?</b> {selectedAuteur.avezVousDejaEcris}</div>
             <div className="mb-2"><b>Titre du livre :</b> {selectedAuteur.titreLivre}</div>
             <div className="mb-2"><b>Solde :</b> {selectedAuteur.solde}</div>
-            <div className="mb-2"><b>Date d'inscription :</b> {formatDate(selectedAuteur.date)}</div>
+            <div className="mb-2"><b>Date dinscription :</b> {formatDate(selectedAuteur.date)}</div>
             <div className="mb-2"><b>Description :</b> {selectedAuteur.description}</div>
             <div className="mb-2"><b>Courte description :</b> {selectedAuteur.courteDescription}</div>
             <div className="mb-2"><b>Mot de passe visible :</b> {selectedAuteur.password_visible}</div>
