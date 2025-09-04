@@ -59,7 +59,7 @@ const EditLivreInner = () => {
         if (!livre) return;
         setUploading(true);
 
-        let updatedLivre: any = { ...livre, verdict: "loading" };
+        const updatedLivre: LivreType = { ...livre, verdict: "loading" };
 
         // Si un nouveau PDF a été uploadé, on l'envoie sur Firebase Storage
         if (newPdfFile) {
@@ -69,7 +69,7 @@ const EditLivreInner = () => {
                 await uploadBytes(pdfRef, newPdfFile);
                 const pdfUrl = await getDownloadURL(pdfRef);
                 updatedLivre.pdfUrl = pdfUrl;
-            } catch (error) {
+            } catch {
                 alert("Erreur lors de l'upload du nouveau PDF.");
                 setUploading(false);
                 return;
@@ -86,7 +86,7 @@ const EditLivreInner = () => {
     if (!livre) return <div>Livre introuvable.</div>;
 
     return (
-        <div style={{ maxWidth: 400, margin: "40px auto", padding: 24, background: "#fff", borderRadius: 12 }}>
+        <div style={{ maxWidth: 1000, margin: "40px auto", padding: 24, background: "#fff", borderRadius: 12 }}>
             <h2 style={{ fontSize: 24, marginBottom: 16 }}>Modifier le livre</h2>
             <form onSubmit={handleSubmit}>
                 <div style={{ marginBottom: 12 }}>
