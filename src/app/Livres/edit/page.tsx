@@ -27,6 +27,8 @@ const EditLivreInner = () => {
     const [uploading, setUploading] = useState(false);
     const [previewPdfUrl, setPreviewPdfUrl] = useState<string | null>(null);
     const [newPdfFile, setNewPdfFile] = useState<File | null>(null);
+    const [previewCoverUrl, setPreviewCoverUrl] = useState<string | null>(null);
+    const [newCoverFile, setNewCoverFile] = useState<File | null>(null);
 
     useEffect(() => {
         const fetchLivre = async () => {
@@ -54,6 +56,17 @@ const EditLivreInner = () => {
         }
     };
 
+    // Gestion de l'upload de la couverture
+    const handleCoverChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            setUploading(true);
+            setNewCoverFile(file);
+            setPreviewCoverUrl(URL.createObjectURL(file));
+            setUploading(false);
+        }
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!livre) return;
@@ -61,7 +74,22 @@ const EditLivreInner = () => {
 
         const updatedLivre: LivreType = { ...livre, verdict: "loading" };
 
-        // Si un nouveau PDF a été uploadé, on l'envoie sur Firebase Storage
+        // Upload nouvelle couverture si modifiée
+        if (newCoverFile) {
+            try {
+                const storage = getStorage();
+                const coverRef = ref(storage, `covers/${newCoverFile.name}`);
+                await uploadBytes(coverRef, newCoverFile);
+                const coverUrl = await getDownloadURL(coverRef);
+                updatedLivre.coverUrl = coverUrl;
+            } catch {
+                alert("Erreur lors de l'upload de la couverture.");
+                setUploading(false);
+                return;
+            }
+        }
+
+        // Upload nouveau PDF si modifié
         if (newPdfFile) {
             try {
                 const storage = getStorage();
@@ -118,6 +146,58 @@ const EditLivreInner = () => {
                         onChange={handleChange}
                         style={{ width: "100%", padding: 8, borderRadius: 6, border: "1px solid #ccc" }}
                     />
+                </div>
+                {/* Section pour uploader la couverture */}
+                <div style={{ marginBottom: 12 }}>
+                    <label>Couverture du livre</label>
+                    <label
+                        htmlFor="cover-upload"
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "10px",
+                            cursor: "pointer",
+                            backgroundColor: "#0cc0df",
+                            padding: "10px",
+                            borderRadius: "15px",
+                            fontWeight: "500",
+                            width: 177,
+                            height: 47,
+                            marginTop: 8,
+                        }}
+                    >
+                        <span style={{ color: "white", fontWeight: 14 }}>Importer une couverture</span>
+                    </label>
+                    <input
+                        id="cover-upload"
+                        type="file"
+                        accept="image/*"
+                        style={{ display: "none" }}
+                        onChange={handleCoverChange}
+                    />
+                    {/* Prévisualisation de la couverture */}
+                    <div style={{ marginTop: 12 }}>
+                        <p style={{ color: "lightgray", fontSize: 12 }}>
+                            <i>prévisualisation</i>
+                        </p>
+                        {previewCoverUrl ? (
+                            <img
+                                src={previewCoverUrl}
+                                alt="Preview Couverture"
+                                style={{ width: 120, height: 170, objectFit: "cover", backgroundColor: "#f3f3f3", borderRadius: 8 }}
+                            />
+                        ) : (
+                            livre.coverUrl ? (
+                                <img
+                                    src={livre.coverUrl}
+                                    alt="Couverture"
+                                    style={{ width: 120, height: 170, objectFit: "cover", backgroundColor: "#f3f3f3", borderRadius: 8 }}
+                            />
+                        ) : (
+                            <div style={{ width: 120, height: 170, backgroundColor: "#f3f3f3", borderRadius: 8 }}></div>
+                        )
+                        )}
+                    </div>
                 </div>
                 {/* Section pour uploader le PDF */}
                 <div style={{ marginBottom: 12 }}>
