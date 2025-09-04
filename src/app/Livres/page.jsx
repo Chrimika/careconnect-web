@@ -66,15 +66,15 @@ const Livres = () => {
             height: "100vh",
             width: "100%"
         }}>
-            <div style={{ width: "100%", height: "100%", overflowY: "scroll" }}>
+            <div style={{  overflowY: "scroll",  }}>
                 <Header 
                     title='Livres' 
                     subTitle='Créez. Gérez. Publiez. Publiez un nouvel ouvrage en cliquant sur Créer. Ou gérez vos œuvres existantes depuis votre bibliothèque ci-dessous.'
                 />
 
-                <div style={{ display: 'flex', flexDirection: 'row', marginBottom: 20 }}>
+                <div style={{ display: 'flex', flexDirection: 'row', marginBottom: 20, maxWidth:1000, justifyContent:'space-between', alignItems:'center', padding:10, borderRadius:10}}>
                     <p style={{ flex: 0.7 }}>Offrez aux lecteurs leur format préféré : publiez votre ebook dès aujourd’hui !</p>
-                    <Link style={{flex: 0.3}} href="../CreationLivre" prefetch>
+                    <Link style={{}} href="../CreationLivre" prefetch>
                     <button 
                         style={{
                              height: 51, width: 160, display: 'flex', 
@@ -87,7 +87,7 @@ const Livres = () => {
                     </Link>
                 </div>
                 
-                <div style={{ width: "100%", padding: "16px 0" }}>
+                <div style={{  padding: "16px 0",maxWidth:1000, }}>
                     <style>
                         {`
                             div::-webkit-scrollbar {

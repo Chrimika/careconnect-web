@@ -65,16 +65,18 @@ const StyledWrapper = styled.div`
   width: 100%;
   z-index: 1000;
   flex: 0.2;
+  
 
   .button-container {
     display: flex;
     background-color: #f3f3f3;
     width: 100%;
-    max-width: 400px;
+    max-width: 1000px;
     margin: 0 auto;
     height: 60px;
     align-items: center;
     justify-content: space-around;
+    border-radius: 20px 20px 0 0;
   }
 
   .legend {

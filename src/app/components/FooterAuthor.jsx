@@ -14,7 +14,7 @@ const Footer = () => {
                 <div style={{display: 'flex',
                             backgroundColor: '#F3F3F3',
                             width: '100%',
-                            maxWidth: 400,
+                            maxWidth: 1000,
                             margin: '0 auto',
                             height: 60,
                             alignItems: 'center',

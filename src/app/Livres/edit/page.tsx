@@ -3,6 +3,7 @@ import React, { useEffect, useState, Suspense } from "react";
 import Livre from "../../models/Livre";
 import { useRouter, useSearchParams } from "next/navigation";
 import Loader from "../../components/Loader";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 interface LivreType {
   id: string;
@@ -13,6 +14,7 @@ interface LivreType {
   genre?: string;
   coverUrl?: string;
   verdict?: string;
+  pdfUrl?: string;
   // Ajoute ici tous les champs nécessaires
 }
 
@@ -22,6 +24,9 @@ const EditLivreInner = () => {
     const livreId = searchParams.get("id");
     const [livre, setLivre] = useState<LivreType | null>(null);
     const [loading, setLoading] = useState(true);
+    const [uploading, setUploading] = useState(false);
+    const [previewPdfUrl, setPreviewPdfUrl] = useState<string | null>(null);
+    const [newPdfFile, setNewPdfFile] = useState<File | null>(null);
 
     useEffect(() => {
         const fetchLivre = async () => {
@@ -38,16 +43,46 @@ const EditLivreInner = () => {
         setLivre({ ...livre, [e.target.name]: e.target.value });
     };
 
+    // Gestion de l'upload du PDF
+    const handlePdfChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            setUploading(true);
+            setNewPdfFile(file);
+            setPreviewPdfUrl(URL.createObjectURL(file));
+            setUploading(false);
+        }
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!livre) return;
-        const updatedLivre = { ...livre, verdict: "loading" };
+        setUploading(true);
+
+        let updatedLivre: any = { ...livre, verdict: "loading" };
+
+        // Si un nouveau PDF a été uploadé, on l'envoie sur Firebase Storage
+        if (newPdfFile) {
+            try {
+                const storage = getStorage();
+                const pdfRef = ref(storage, `pdfs/${newPdfFile.name}`);
+                await uploadBytes(pdfRef, newPdfFile);
+                const pdfUrl = await getDownloadURL(pdfRef);
+                updatedLivre.pdfUrl = pdfUrl;
+            } catch (error) {
+                alert("Erreur lors de l'upload du nouveau PDF.");
+                setUploading(false);
+                return;
+            }
+        }
+
         const res = await Livre.updateLivre(livreId, updatedLivre);
-        alert(`${res}\nLivre modifié avec succès. Il sera revalidé sous 24H, veuillez patienter.`);
+        setUploading(false);
+        alert(`${res}\nVos modifications ont été prises en compte. Papers validera ces mises à jour en moins de 24hr, merci...`);
         router.push("/Livres");
     };
 
-    if (loading) return <Loader />;
+    if (loading || uploading) return <Loader />;
     if (!livre) return <div>Livre introuvable.</div>;
 
     return (
@@ -83,6 +118,58 @@ const EditLivreInner = () => {
                         onChange={handleChange}
                         style={{ width: "100%", padding: 8, borderRadius: 6, border: "1px solid #ccc" }}
                     />
+                </div>
+                {/* Section pour uploader le PDF */}
+                <div style={{ marginBottom: 12 }}>
+                    <label>Contenu du livre (PDF)</label>
+                    <label
+                        htmlFor="pdf-upload"
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "10px",
+                            cursor: "pointer",
+                            backgroundColor: "#0cc0df",
+                            padding: "10px",
+                            borderRadius: "15px",
+                            fontWeight: "500",
+                            width: 177,
+                            height: 47,
+                            marginTop: 8,
+                        }}
+                    >
+                        <span style={{ color: "white", fontWeight: 14 }}>Importer un livre</span>
+                    </label>
+                    <input
+                        id="pdf-upload"
+                        type="file"
+                        accept="application/pdf"
+                        style={{ display: "none" }}
+                        onChange={handlePdfChange}
+                    />
+                    {/* Prévisualisation du PDF */}
+                    <div style={{ marginTop: 12 }}>
+                        <p style={{ color: "lightgray", fontSize: 12 }}>
+                            <i>prévisualisation</i>
+                        </p>
+                        {previewPdfUrl ? (
+                            <iframe
+                                src={previewPdfUrl}
+                                style={{ width: 235, height: 270, backgroundColor: "#f3f3f3" }}
+                                title="PDF Preview"
+                            />
+                        ) : (
+                            livre.pdfUrl ? (
+                                <iframe
+                                    src={livre.pdfUrl}
+                                    style={{ width: 235, height: 270, backgroundColor: "#f3f3f3" }}
+                                    title="PDF Preview"
+                                />
+                            ) : (
+                                <div style={{ width: 235, height: 270, backgroundColor: "#f3f3f3" }}></div>
+                            )
+                        )}
+                    </div>
                 </div>
                 <button
                     type="submit"
