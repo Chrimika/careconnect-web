@@ -67,8 +67,8 @@ const VentesPage = () => {
     }, [auteurId]);
 
     return (
-        <div style={{ margin: 0, flex: 1, padding: '48px 16px', flex: 1, height: '100vh', display: 'flex', flexDirection: 'column', width: '100%' }}>
-            <div style={{ height: '100%', overflowY: "scroll" }}>
+        <div style={{ flex: 1, padding: '48px 16px', flex: 1, height: '100vh', display: 'flex', flexDirection: 'column', width: '100%',justifyContent: 'center', alignItems: 'center',border: "1px solid black" }}>
+            <div style={{ height: '100%', overflowY: "scroll",width: '100%', maxWidth: 800, padding: 16 }}>
                 <style>
                     {`
                         div::-webkit-scrollbar {

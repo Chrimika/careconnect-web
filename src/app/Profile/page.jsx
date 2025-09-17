@@ -91,7 +91,7 @@ const Profile = () => {
           }
         `}
       </style>
-      <div style={{ flex: 0.8, overflowY: "scroll", height: "100vh", maxWidth: 1000, width: "100%", padding: 16 }}>
+      <div style={{ flex: 0.8, overflowY: "scroll", height: "100vh", maxWidth: 800, width: "100%", padding: 16 }}>
         <Header title="Profile" subTitle="" />
         <div style={{ marginTop: 32 }}>
           <Image
