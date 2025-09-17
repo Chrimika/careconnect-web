@@ -69,7 +69,7 @@ const Payment = () => {
     if (solde >= seuil && (orangeMoneyNumber || mobileMoneyNumber)) {
       setShowRetraitModal(true); // Afficher la modal pour saisir le montant
     } else {
-      alert("Le seuil n'est pas atteint ou les numéros de paiement ne sont pas renseignés.");
+      alert("Le seuil" + (seuil > 0 ? ` de ${seuil.toLocaleString()} XAF` : "") + " n'est pas atteint ou aucun numéro de paiement n'est configuré.");
     }
   };
 
@@ -121,6 +121,21 @@ const Payment = () => {
       console.error("Erreur lors de la mise à jour des numéros de paiement :", error);
     }
   };
+
+  // Regroupement des transactions par date
+  const groupedTransactions = transactions.reduce((groups, tx) => {
+    const dateObj = tx.date?.toDate ? tx.date.toDate() : new Date(tx.date);
+    // Format : samedi, 13/09/2025
+    const dateStr = dateObj.toLocaleDateString("fr-FR", {
+      weekday: "long",
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric"
+    });
+    if (!groups[dateStr]) groups[dateStr] = [];
+    groups[dateStr].push(tx);
+    return groups;
+  }, {});
 
   return (
     <div style={{ margin: "0 auto", padding: "0 16px", flex: 1, height: "100vh", display: "flex", flexDirection: "column", justifyContent: "center" }}>
@@ -181,34 +196,55 @@ const Payment = () => {
           </div>
         </div>
 
-        <div style={{ flex: 0.6, width: "100%", height: 300, backgroundColor: "#f9f9f9", borderRadius: 15, marginTop: 32, display: "flex", flexDirection: "column" }}>
+        <div style={{ flex: 0.6, width: "100%", height: 500, backgroundColor: "#f9f9f9", borderRadius: 15, marginTop: 32, display: "flex", flexDirection: "column" }}>
           <div style={{ flex: 0.5, width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0 32px" }}>
             <p style={{ fontSize: 16 }}>Transactions</p>
           </div>
           <div style={{ flex: 2, width: "100%", height: 200, overflowY: "scroll", padding: "0 32px" }}>
             <div style={{ width: "100%" }}>
-              {transactions.map((transaction, index) => (
-                <div key={index} style={{ marginTop: 8, display: "flex", justifyContent: "space-between", width: "100%", borderBottomWidth: 1, borderBottomColor: "lightgray", padding: "6px 0" }}>
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <Image
-                      src={transaction.type == "retrait" ? withdrawal : deposite}
-                      alt="transaction"
-                      width={40}
-                      height={10}
-                    />
-                    <div style={{ marginLeft: 8 }}>
-                      <p style={{ fontSize: 14, fontWeight: "bold", color: "#0cc0cd" }}>{"Transaction"}</p>
-                      <p style={{ fontSize: 9 }}>{transaction.type == "retrait" ? "Retrait d'argent" : "Dépôt d'argent"}</p>
-                    </div>
+              {Object.entries(groupedTransactions)
+                .sort((a, b) => {
+                  // Sécurise le split pour éviter l'erreur
+                  const getDate = (str) => {
+                    if (!str || !str.includes(", ")) return new Date(0); // date très ancienne
+                    const datePart = str.split(", ")[1];
+                    if (!datePart) return new Date(0);
+                    const [day, month, year] = datePart.split("/");
+                    return new Date(`${year}-${month}-${day}`);
+                  };
+                  return getDate(b[0]) - getDate(a[0]);
+                })
+                .map(([date, txs]) => (
+                  <div key={date}>
+                    <p style={{ fontWeight: "bold", fontSize: 13, marginTop: 12, marginBottom: 4, color: "#0cc0cd" }}>{date}</p>
+                    {txs.map((transaction, index) => (
+                      <div key={index} style={{ marginTop: 8, display: "flex", justifyContent: "space-between", width: "100%", borderBottomWidth: 1, borderBottomColor: "lightgray", padding: "6px 0" }}>
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                          <Image
+                            src={transaction.type == "retrait" ? withdrawal : deposite}
+                            alt="transaction"
+                            width={40}
+                            height={10}
+                          />
+                          <div style={{ marginLeft: 8 }}>
+                            <p style={{ fontSize: 14, fontWeight: "bold", color: "#0cc0cd" }}>{"Transaction"}</p>
+                            <p style={{ fontSize: 9 }}>{transaction.type == "retrait" ? "Retrait d'argent" : "Dépôt d'argent"}</p>
+                          </div>
+                        </div>
+                        <div style={{ display: "flex", flexDirection: "column" }}>
+                          <p style={{ color: transaction.type == "retrait" ? "red" : "lightgreen", fontWeight: "bold" }}>
+                            {transaction.type == "retrait" ? "-" : "+"}{transaction.montant || transaction.prix} FCFA
+                          </p>
+                          <p style={{ fontSize: 14, marginLeft: "auto" }}>
+                            {transaction.date?.toDate
+                              ? transaction.date.toDate().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })
+                              : new Date(transaction.date).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                  <div style={{ display: "flex", flexDirection: "column" }}>
-                    <p style={{ color: transaction.type == "retrait" ? "red" : "lightgreen", fontWeight: "bold" }}>
-                      {transaction.type == "retrait" ? "-" : "+"}{transaction.montant || transaction.prix} FCFA
-                    </p>
-                    <p style={{ fontSize: 14, marginLeft: "auto" }}>{new Date(transaction.date?.toDate()).toLocaleTimeString()}</p>
-                  </div>
-                </div>
-              ))}
+                ))}
             </div>
           </div>
         </div>
